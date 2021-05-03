@@ -26,25 +26,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('hostel'),
-          ),
-          body: Registration()),
+        body: Registration(),
+      ),
     );
   }
 }
-//
-// Future Getdata(url) async {
-//   http.Response Response = await http.get(url);
-//   return Response.body;
-// }
-// GestureDetector(
-// onTap: () async {
-// var Data = await Getdata(url);
-// var DecodedData = jsonDecode(Data);
-// setState(() {
-// NameText = DecodedData['login'];
-// });
-// },
-// child: Icon(Icons.lock),
-// ),

@@ -7,37 +7,42 @@ class LoginPage extends StatefulWidget {
 }
 
 class _State extends State<LoginPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController login = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Screen App'),
-      ),
+      backgroundColor: Colors.white60,
       body: Padding(
         padding: EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
-            Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  'Codeplayon',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30),
-                )),
+            SizedBox(
+              height: 150,
+            ),
+            CircleAvatar(
+              radius: 60,
+              child: Icon(
+                Icons.account_circle_sharp,
+                size: 120,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextField(
-                controller: nameController,
+                controller: login,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    borderSide: BorderSide(color: Colors.blue, width: 1.5),
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                      width: 1.5,
+                    ),
                   ),
                   labelText: 'Email',
                 ),
@@ -47,11 +52,14 @@ class _State extends State<LoginPage> {
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: TextField(
                 obscureText: true,
-                controller: passwordController,
+                controller: password,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    borderSide: BorderSide(color: Colors.blue, width: 1.5),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 20,
+                    ),
                   ),
                   labelText: 'Password',
                 ),
@@ -61,7 +69,7 @@ class _State extends State<LoginPage> {
               onPressed: () {
                 //forgot password screen
               },
-              textColor: Colors.blue,
+              textColor: Colors.blueAccent,
               child: Text('Forgot Password'),
             ),
             Container(
@@ -69,7 +77,7 @@ class _State extends State<LoginPage> {
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: RaisedButton(
                 textColor: Colors.white,
-                color: Colors.blue,
+                color: Colors.blueAccent,
                 child: Text('Login'),
                 onPressed: () async {
                   // print(nameController.text);
@@ -78,8 +86,8 @@ class _State extends State<LoginPage> {
                   Map<String, String> headers = {
                     "Content-type": "application/json"
                   };
-                  String json = '{"login":"${nameController.text}",'
-                      '"password":"${passwordController.text}"}';
+                  String json = '{"login":"${login.text}",'
+                      '"password":"${password.text}"}';
 
                   // make POST request
                   Response response =
@@ -102,8 +110,11 @@ class _State extends State<LoginPage> {
                 FlatButton(
                   textColor: Colors.blue,
                   child: Text(
-                    'Sign in',
-                    style: TextStyle(fontSize: 20),
+                    'Registration',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blueAccent,
+                    ),
                   ),
                   onPressed: () {
                     //signup(registaion) screen
