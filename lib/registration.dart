@@ -32,7 +32,7 @@ class _RegistrationState extends State<Registration> {
 
   _makePostRequest() async {
     // set up POST request arguments
-    final url = Uri.parse('http://192.168.137.1:5000//registration');
+    final url = Uri.parse('http://192.168.137.1:5000/registration');
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = '{'
         '"name": "${name.text}",'
@@ -389,9 +389,8 @@ class _RegistrationState extends State<Registration> {
                                   ),
                                   onChanged: (String value) {
                                     setState(() {
-                                      course = value;
-                                      print(
-                                          course); // saving the selected value
+                                      course =
+                                          value; // saving the selected value
                                     });
                                   },
                                   value:
@@ -624,7 +623,6 @@ class _RegistrationState extends State<Registration> {
 
                           if (_isValid) {
                             _makePostRequest();
-                            print('success');
                           }
                         },
                         shape: RoundedRectangleBorder(

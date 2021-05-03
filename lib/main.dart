@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:hostel_app/registration.dart';
 import 'package:hostel_app/login.dart';
 import 'dart:convert';
+import 'package:hostel_app/loading_screen.dart';
+import 'package:hostel_app/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Registration(),
+        body: Profile_Screen(),
       ),
     );
   }

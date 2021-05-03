@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class LoginPage extends StatefulWidget {
 class _State extends State<LoginPage> {
   TextEditingController login = TextEditingController();
   TextEditingController password = TextEditingController();
+  String token;
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +82,11 @@ class _State extends State<LoginPage> {
                 color: Colors.blueAccent,
                 child: Text('Login'),
                 onPressed: () async {
-                  // print(nameController.text);
-                  // print(passwordController.text);
                   final url = Uri.parse('http://192.168.137.1:5000/login');
                   Map<String, String> headers = {
                     "Content-type": "application/json"
                   };
-                  String json = '{"login":"${login.text}",'
+                  String json = '{"email":"${login.text}",'
                       '"password":"${password.text}"}';
 
                   // make POST request
@@ -96,9 +96,11 @@ class _State extends State<LoginPage> {
                   int statusCode = response.statusCode;
                   // this API passes back the id of the new item added to the body
                   String body = response.body;
+                  Map<String, dynamic> userToken = jsonDecode(body);
+                  token = userToken['token'];
+                  print(token);
                   // {
-                  //      "login": "name",
-                  //      "password": "password"
+                  //      token or error message
                   // }
                 },
               ),

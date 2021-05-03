@@ -10,7 +10,7 @@ MongoURL = "mongodb+srv://JayBhakhar:jay456789@hostel.rwz7a.mongodb.net/myFirstD
 app = Flask(__name__)
 app.config["MONGO_URI"] = MongoURL
 mongo = PyMongo(app)
-users = MongoClient(MongoURL).datadase.user
+users = MongoClient(MongoURL).datadase.users
 app.config['SECRET_KEY'] = 'secret'
 
 
@@ -39,23 +39,27 @@ def token_required(f):
 
     return decorated
 
-@app.route('/')
-def home():
-    user = []
-    user.append({
-        'surename': 'bhakhar',
-        'name': 'jay',
-        'fatherName': 'dineshbhai',
-        'faculty': 'фмиит',
-        'course': '3',
-        'group': 'ap-31',
-        'phoneNo': '+79961011395',
-        'email': 'jaybhakhar@gmail.com',
-        'hostelNo': '1',
-        'roomNo': '7',
-        'position': 'nothing'
-        }) #left print,right database
-    return jsonify({'user': user})
+@app.route('/users', methods=['GET'])
+@token_required
+def home(current_user):
+    output = []
+    for user in users.find():
+        output.append(
+            {
+            'name': user['name'],
+            'surename': user['surename'],
+            'fatherName': user['father_name'],
+            'faculty': user['faculty'],
+            'course': user['course'],
+            'group': user['group'],
+            'phoneNo': user['phone_no'],
+            'email': user['email'],
+            'hostelNo': user['hostel_no'],
+            'roomNo': user['room_no'],
+            'position': user['position']
+            }
+        )
+    return jsonify({'user': output})
 
 
 @app.route('/registration', methods=['POST'])
@@ -77,7 +81,6 @@ def create_user():
     #     roomNo: 12,
     #     position: admin
     # }
-    print(data['phoneNo'])
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
     users.insert_one({
@@ -101,16 +104,12 @@ def create_user():
 
 @app.route('/login', methods=['POST'])
 def login():
-
     user = request.get_json()
     # {
     #     "email": "jaybhakhar@gmail.com",
     #     "password": "123456"
     # }
-    print(user['email'])
-    print(user['password'])
     for data in users.find({'email': user['email']}):
-        print(check_password_hash(data['password'], user['password']))
         if check_password_hash(data['password'], user['password']):
             token = jwt.encode(
                 {
