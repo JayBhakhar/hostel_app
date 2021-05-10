@@ -43,7 +43,7 @@ def token_required(f):
 @token_required
 def home(current_user):
     output = []
-    for user in users.find():
+    for user in users.find({'email':current_user['email']}):
         output.append(
             {
             'name': user['name'],
@@ -60,6 +60,29 @@ def home(current_user):
             }
         )
     return jsonify({'user': output})
+
+
+
+@app.route('/all_users', methods=['GET'])
+def all_users():
+    output = []
+    for user in users.find():
+        output.append(
+            {
+                'name': user['name'],
+                'surename': user['surename'],
+                'fatherName': user['father_name'],
+                'faculty': user['faculty'],
+                'course': user['course'],
+                'group': user['group'],
+                'phoneNo': user['phone_no'],
+                'email': user['email'],
+                'hostelNo': user['hostel_no'],
+                'roomNo': user['room_no'],
+                'position': user['position']
+            }
+        )
+    return jsonify({'users': output})
 
 
 @app.route('/registration', methods=['POST'])

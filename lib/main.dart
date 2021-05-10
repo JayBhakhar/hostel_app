@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hostel_app/all_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:hostel_app/registration.dart';
 import 'package:hostel_app/login.dart';
-import 'dart:convert';
 import 'package:hostel_app/loading_screen.dart';
 import 'package:hostel_app/profile_screen.dart';
 
@@ -22,14 +22,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String url = 'http://192.168.137.1:5000/';
-  String NameText = '';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Profile_Screen(),
+        // body: LoadingScreen(),
+        body: All_User(),
       ),
+      routes: {
+        Profile_Screen.id: (context) => Profile_Screen(),
+        LoginPage.id: (context) => LoginPage(),
+        Profile_Screen.id: (context) => Profile_Screen(),
+        Registration.id: (context) => Registration(),
+        LoadingScreen.id: (context) => LoadingScreen(),
+        All_User.id: (context) => All_User(),
+      },
     );
   }
 }

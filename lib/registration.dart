@@ -3,8 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
+import 'package:hostel_app/login.dart';
 
 class Registration extends StatefulWidget {
+  static String id = 'registration';
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -623,6 +625,7 @@ class _RegistrationState extends State<Registration> {
 
                           if (_isValid) {
                             _makePostRequest();
+                            Navigator.popAndPushNamed(context, LoginPage.id);
                           }
                         },
                         shape: RoundedRectangleBorder(

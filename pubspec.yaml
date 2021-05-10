@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   http:
   flutter_spinkit: "^4.1.2"
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

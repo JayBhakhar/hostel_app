@@ -7,13 +7,13 @@ import 'constant.dart';
 import 'package:hostel_app/user_detail_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Profile_Screen extends StatefulWidget {
-  static String id = 'profile_screen';
+class All_User extends StatefulWidget {
+  static String id = 'all_user';
   @override
-  _Profile_ScreenState createState() => _Profile_ScreenState();
+  _All_UserState createState() => _All_UserState();
 }
 
-class _Profile_ScreenState extends State<Profile_Screen> {
+class _All_UserState extends State<All_User> {
   String surename;
   String name;
   String fathername;
@@ -25,19 +25,15 @@ class _Profile_ScreenState extends State<Profile_Screen> {
   String hostel_no;
   int room_no;
   String position;
+  List<dynamic> users;
 
   void initState() {
     super.initState();
-    GetUserData(url);
+    GetAllUserData(url);
   }
 
-  Future<void> sign_out() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-  }
-
-  Future<http.Response> GetUserData(url) async {
-    final url = Uri.parse('http://192.168.137.1:5000/users');
+  Future<http.Response> GetAllUserData(url) async {
+    final url = Uri.parse('http://192.168.137.1:5000/all_users');
     final prefs = await SharedPreferences.getInstance();
     Map<String, String> header = {
       "x-access-token": prefs.getString('token'),
@@ -46,17 +42,19 @@ class _Profile_ScreenState extends State<Profile_Screen> {
     json.decode(response.body);
     setState(() {
       var userMap = json.decode(response.body);
-      name = userMap['user'][0]['name'];
-      surename = userMap['user'][0]['surename'];
-      fathername = userMap['user'][0]['fatherName'];
-      faculty = userMap['user'][0]['faculty'];
-      course = userMap['user'][0]['course'];
-      group = userMap['user'][0]['group'];
-      phone_no = userMap['user'][0]['phoneNo'];
-      email = userMap['user'][0]['email'];
-      hostel_no = userMap['user'][0]['hostelNo'];
-      room_no = userMap['user'][0]['roomNo'];
-      position = userMap['user'][0]['position'];
+      users = userMap["users"];
+      print(users);
+      // name = userMap['users'][listInt]['name'];
+      // surename = userMap['users'][listInt]['surename'];
+      // fathername = userMap['users'][listInt]['fatherName'];
+      // faculty = userMap['users'][listInt]['faculty'];
+      // course = userMap['users'][listInt]['course'];
+      // group = userMap['users'][listInt]['group'];
+      // phone_no = userMap['users'][listInt]['phoneNo'];
+      // email = userMap['users'][listInt]['email'];
+      // hostel_no = userMap['users'][listInt]['hostelNo'];
+      // room_no = userMap['users'][listInt]['roomNo'];
+      // position = userMap['users'][listInt]['position'];
       if (hostel_no == 'Общежитие №. 1 (Деповская, 27)') {
         return hostel_no = '1';
       } else if (hostel_no == 'Общежитие №. 2 (проспект Ленина, 29)') {
@@ -70,11 +68,10 @@ class _Profile_ScreenState extends State<Profile_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile'), actions: <Widget>[
+      appBar: AppBar(title: Text('ALL USERS'), actions: <Widget>[
         IconButton(
           icon: Icon(Icons.logout),
           onPressed: () {
-            sign_out();
             print('remove token');
             Navigator.pushReplacementNamed(
               context,
@@ -86,12 +83,13 @@ class _Profile_ScreenState extends State<Profile_Screen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // for (var user in userMap) Text(user['name']),
-          UserDetailCard(
-            full_name: '$name $surename',
-            room_no: room_no,
-            hostel_no: '$hostel_no',
-          ),
+          for (var user in users)
+            UserDetailCard(
+              // full_name: '$name $surename',
+              full_name: user['name'] + ' ' + user['surename'],
+              room_no: user['roomNo'],
+              hostel_no: user['hostelNo'],
+            ),
         ],
       ),
     );
